@@ -16,9 +16,12 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.contains(' server ') and message.content.contains(' lag '):
-        with MCRcon(ip, password=password, port=port) as mcr:
-            resp = mcr.command("tps")
-            await message.channel.send(f'It appears you may be complaining about server lag! {resp}')
+    if 'server' in message.content and ' lag' in message.content:
+        with MCRcon(ip(), password=password(), port=port()) as mcr:
+            resp = mcr.command('tps')
+            msg = resp.replace('§6', '')
+            msg = msg.replace('§a', '')
+            print(msg)
+            await message.channel.send(f'It appears you may be complaining about server lag! `{msg}`')
 
-client.run(token)
+client.run(token())
